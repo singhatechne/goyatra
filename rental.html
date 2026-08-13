@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoYatra - Explore & Book</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#1e293b', 
+                        'secondary-dark': '#64748b', 
+                        'nav-active': '#10b981', 
+                        'nav-inactive': '#334155',
+                        'primary-yellow': '#FFD700',
+                        'dark-gray': '#333333',
+                        'light-gray-bg': '#F7F7F7',
+                        'card-overlay': 'rgba(0, 0, 0, 0.2)',
+                        'price-green': '#008000',
+                        'cta-blue': '#38bdf8',
+                        'cta-blue-dark': '#0ea5e9',
+                        'section-light': '#f8fafc',
+                        'section-lighter': '#f1f5f9',
+                        'go-yatra-dark': '#0A1420',
+                        'go-yatra-teal': '#008080',
+                        'go-yatra-light': '#00A3A3',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'custom-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        'card': '0 4px 10px rgba(0, 0, 0, 0.1)',
+                        'xl-light': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02)',
+                        'custom-container': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06)',
+                        'cta-shadow': '0 5px 15px -3px rgba(56, 189, 248, 0.5), 0 3px 6px -4px rgba(56, 189, 248, 0.4)',
+                    },
+                    borderRadius: {
+                        '2xl': '1.25rem',
+                        '3xl': '1.5rem',
+                        '4xl': '2rem',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.6s ease-out',
+                        'fade-in-left': 'fadeInLeft 0.6s ease-out',
+                        'fade-in-right': 'fadeInRight 0.6s ease-out',
+                        'zoom-in': 'zoomIn 0.6s ease-out',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ===== COMBINED STYLES FROM BOTH CODE1 AND CODE2 ===== */
+        :root {
+            --go-yatra-dark: #0A1420;
+            --go-yatra-teal: #008080;
+            --go-yatra-light: #00A3A3;
+            --primary-text: #333333;
+            --secondary-text: #666666;
+            --light-bg: #F8F8F8;
+            --feature-orange: #FF8C00;
+            --footer-bg-dark: #1E1E1E;
+            --toggle-on: #ef4444;
+            --toggle-off: #d1d5db;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background-color: white; }
+        
+        .bg-go-yatra-dark { background-color: var(--go-yatra-dark); }
+        .text-go-yatra-teal { color: var(--go-yatra-teal); }
+        .bg-go-yatra-teal { background-color: var(--go-yatra-teal); }
+        .bg-go-yatra-light { background-color: var(--go-yatra-light); }
+        .text-feature-orange { color: var(--feature-orange); }
+        .bg-footer-dark { background-color: var(--footer-bg-dark); }
+        
+        .header-input {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 4px 8px;
+            font-size: 0.85rem;
+            outline: none;
+            width: 100%;
+            text-align: center;
+        }
+        .header-input::placeholder { color: rgba(255, 255, 255, 0.7); }
+        
+        .bus-image-hero { background-image: url('heropic.png'); background-size: cover; background-position: center; height: 500px; position: relative; }
+        
+        .footer-stylish {
+    background-image: linear-gradient(rgba(10, 20, 32, 0.6), rgba(10, 20, 32, 0.6)), url('https://images.unsplash.com/photo-1605640840605-14ac1855827b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    color: white;
+}
+
+.footer-stylish::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(10, 20, 32, 0.5) 0%, rgba(0, 128, 128, 0.2) 100%);
+    /* Alternatively, remove the ::before rule entirely if you want maximum visibility */
+}
+        .footer-content { position: relative; z-index: 1; }
+        
+        .fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .is-visible { opacity: 1; transform: translateY(0); }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--toggle-off);
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px; left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--toggle-on); }
+        input:focus + .slider { box-shadow: 0 0 1px var(--toggle-on); }
+        input:checked + .slider:before { transform: translateX(20px); }
+        
+        .modal { display: none; position: fixed; z-index: 1000; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 1rem; }
+        .modal-content { background-color: #fefefe; margin: auto; padding: 25px; border-radius: 15px; width: 95%; max-width: 700px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative; animation: slideIn 0.3s ease-out forwards; max-height: 90vh; overflow-y: auto; }
+        .close-button { position: absolute; top: 10px; right: 15px; color: #aaa; font-size: 24px; font-weight: bold; cursor: pointer; z-index: 10; }
+        .close-button:hover { color: #333; }
+        
+        @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .destination-card-image { transition: transform 0.5s ease-in-out; }
+        .destination-card:hover .destination-card-image { transform: scale(1.08); }
+        
+        .passenger-dropdown, .mobile-passenger-dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 100;
+            border-radius: 8px;
+            padding: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            top: calc(100% + 5px);
+        }
+        .passenger-dropdown.show, .mobile-passenger-dropdown.show { display: block; }
+        
+        .passenger-control { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; }
+        .passenger-control button { background-color: var(--go-yatra-teal); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; font-size: 1rem; cursor: pointer; transition: background-color 0.2s; }
+        .passenger-control button:hover { background-color: var(--go-yatra-light); }
+        
+        .hero-gradient { background: linear-gradient(135deg, rgba(10, 20, 32, 0.85) 0%, rgba(0, 128, 128, 0.2) 100%); position: absolute; inset: 0; }
+        
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        .floating { animation: float 6s ease-in-out infinite; }
+        
+        .seat { width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.2s ease; font-size: 0.7rem; position: relative; user-select: none; }
+        .seat.available { background-color: #e5e7eb; color: #374151; }
+        .seat.available:hover { background-color: #d1d5db; transform: scale(1.1); }
+        .seat.selected { background-color: var(--go-yatra-teal); color: white; }
+        .seat.occupied { background-color: #ef4444; color: white; cursor: not-allowed; }
+        .seat.driver { background-color: #6b7280; color: white; cursor: not-allowed; }
+        .seat.women-reserved { background-color: #fce7f3; color: #9d174d; cursor: not-allowed; border: 2px solid #ec4899; }
+        .seat.women-reserved::after { content: '🌸'; position: absolute; top: -6px; right: -6px; font-size: 12px; }
+        .aisle-space { width: 25px; }
+        
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
+        
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        
+        .search-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255,255,255,0.98); z-index: 999; display: none; overflow-y: auto; padding: 2rem 0; }
+        .search-overlay.active { display: block; }
+        
+        .bus-layout { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 15px; }
+        .driver-seat { width: 55px; height: 35px; background-color: #6b7280; color: white; display: flex; align-items: center; justify-content: center; border-radius: 6px; margin-bottom: 10px; font-size: 11px; }
+        .seat-row { display: flex; gap: 6px; align-items: center; justify-content: center; }
+        
+        .overlay-close { position: fixed; top: 20px; right: 20px; background: none; border: none; font-size: 28px; cursor: pointer; color: #666; z-index: 1000; }
+        .overlay-close:hover { color: #333; }
+        
+        .support-bg-image { background-image: url('busback.png'); background-size: cover; background-position: center; }
+        
+        .custom-logo-radius { border-radius: 8px; }
+        .custom-logo-radius1 { border-radius: 5px; }
+        
+        .autocomplete-items { position: absolute; background-color: #1f2937; border-radius: 8px; z-index: 1000; max-height: 180px; overflow-y: auto; width: 200px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); margin-top: 4px; text-align: left; }
+        .autocomplete-item { padding: 8px 10px; cursor: pointer; color: white; font-size: 0.85rem; }
+        .autocomplete-item:hover { background-color: #374151; }
+        
+        .calendar-wrapper { position: relative; display: inline-flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 2px; }
+        .calendar-wrapper input[type="date"], .calendar-wrapper input[type="text"] { background: white; border: none; padding: 6px 10px; font-size: 0.8rem; color: #1e293b; outline: none; border-radius: 6px; cursor: pointer; font-weight: 500; }
+        .calendar-wrapper input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0.6; cursor: pointer; }
+        .date-toggle-btn { background: transparent; border: 1px solid #cbd5e1; color: #475569; font-size: 0.7rem; cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: all 0.2s; margin: 0 2px; }
+        .date-toggle-btn:hover { background: #f1f5f9; border-color: #94a3b8; }
+        .date-toggle-btn.active { background: #0A1420; color: white; border-color: #0A1420; }
+        
+        .vehicle-image { transition: transform 0.3s ease; border-radius: 8px; object-fit: cover; width: 100%; }
+        .vehicle-image:hover { transform: scale(1.03); }
+        
+        .destination-carousel { display: flex; overflow-x: hidden; gap: 24px; padding: 20px 5px; position: relative; }
+        .carousel-track { display: flex; gap: 24px; animation: autoSlide 40s linear infinite; }
+        .carousel-track:hover { animation-play-state: paused; }
+        @keyframes autoSlide { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .carousel-item { min-width: 340px; max-width: 380px; flex-shrink: 0; cursor: pointer; }
+        .carousel-item img { height: 220px; object-fit: cover; }
+        
+        .payment-methods { display: flex; gap: 10px; flex-wrap: wrap; }
+        .payment-method { border: 2px solid #e5e7eb; border-radius: 8px; padding: 10px 15px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+        .payment-method.selected { border-color: var(--go-yatra-teal); background-color: #f0fdf4; }
+        .payment-method img { height: 30px; object-fit: contain; }
+        
+        .nav-btn { background-color: #e5e7eb; border: none; border-radius: 6px; padding: 8px 14px; cursor: pointer; transition: all 0.2s; font-weight: 600; }
+        .nav-btn:hover { background-color: #d1d5db; }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .qr-container { display: none; text-align: center; padding: 20px; background: #f9f9f9; border-radius: 8px; margin-top: 15px; }
+        .qr-container.show { display: block; }
+        .qr-placeholder { width: 200px; height: 200px; margin: 0 auto; background: white; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #666; border-radius: 8px; flex-direction: column; }
+        
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 998; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+        .whatsapp-main-btn { width: 60px; height: 60px; border-radius: 50%; background-color: #25D366; color: white; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4); transition: all 0.3s; border: none; }
+        .whatsapp-main-btn:hover { transform: scale(1.1); box-shadow: 0 6px 16px rgba(37, 211, 102, 0.6); }
+        .whatsapp-questions { display: none; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); padding: 15px; width: 280px; max-height: 400px; overflow-y: auto; }
+        .whatsapp-questions.show { display: block; }
+        .whatsapp-question { padding: 10px; border-radius: 8px; cursor: pointer; transition: background 0.2s; display: block; width: 100%; text-align: left; border: 1px solid #e5e7eb; margin-bottom: 5px; background: white; color: #333; font-size: 14px; }
+        .whatsapp-question:hover { background: #f0fdf4; border-color: #25D366; }
+        
+        .feature-card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; text-align: center; border-top: 3px solid transparent; }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); border-top-color: var(--go-yatra-teal); }
+        .feature-card .feature-icon { width: 64px; height: 64px; border-radius: 50%; background: #f0fdf4; color: var(--go-yatra-teal); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.8rem; }
+        .feature-card h3 { font-size: 1.3rem; font-weight: 600; color: #1e293b; margin-bottom: 0.75rem; }
+        .feature-card p { color: #64748b; font-size: 0.95rem; line-height: 1.6; }
+        
+        @media (max-width: 767px) {
+            .mobile-booking-container { background-color: rgba(55, 65, 81, 0.7); border-radius: 16px; padding: 1rem; margin-top: 0.5rem; position: relative; }
+            .mobile-booking-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; }
+            .mobile-booking-item { flex: 1 1 calc(50% - 0.5rem); min-width: 130px; background-color: rgba(75, 85, 99, 0.5); border-radius: 10px; padding: 0.5rem; text-align: center; position: relative; }
+            .mobile-search-button { width: 100%; margin-top: 0.5rem; padding: 0.75rem; border-radius: 10px; font-weight: bold; }
+            .mobile-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--go-yatra-dark); padding: 1rem; z-index: 100; }
+            .mobile-menu.active { display: block; }
+            .mobile-menu-item { display: block; padding: 0.75rem 1rem; color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .whatsapp-float { bottom: 20px; right: 20px; }
+        }
+        
+        @media (min-width: 768px) { .mobile-menu-button, .mobile-menu { display: none; } }
+    </style>
+</head>
+<body class="bg-white font-sans text-primary-dark">
+
+    <!-- ===================== GOYATRA HEADER (EXACT FROM CODE2) ===================== -->
+    <header class="bg-go-yatra-dark text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-2 flex justify-between items-center text-xs">
+            <button class="mobile-menu-button lg:hidden text-white text-xl"><i class="fas fa-bars"></i></button>
+            <div class="flex items-center gap-2">
+                <span class="text-xl md:text-2xl font-extrabold tracking-wide">GoYatra</span>
+            </div>
+            <div class="hidden lg:flex items-center space-x-5">
+                <span><i class="fas fa-envelope mr-1"></i> support@goyatra.com</span>
+                <span><i class="fas fa-phone mr-1"></i> 9855049452</span>
+                <span><i class="fas fa-map-marker-alt mr-1"></i> Koteswor</span>
+                <span><i class="fas fa-clock mr-1"></i> 10AM-5PM</span>
+            </div>
+            <div class="flex space-x-2 items-center">
+                <button class="text-white px-2 py-1 rounded-lg text-xs font-semibold hover:bg-gray-800 transition" onclick="openSignUpModal()">SIGN UP</button>
+                <button class="bg-go-yatra-teal text-white px-2 py-1 rounded-lg text-xs font-semibold hover:bg-go-yatra-light transition" onclick="window.location.href='login.html'">LOG IN</button>
+            </div>
+        </div>
+        
+        <div class="mobile-menu">
+            <a href="#" class="mobile-menu-item">Book</a>
+            <a href="#" class="mobile-menu-item">Check-in</a>
+            <a href="#" class="mobile-menu-item">My Trips</a>
+            <a href="#" class="mobile-menu-item">Travel Info</a>
+            <a href="#" class="mobile-menu-item">Need Help?</a>
+        </div>
+
+        <div class="container mx-auto px-4 py-3">
+            <div class="hidden md:flex items-center justify-between bg-gray-700/60 p-2 rounded-full border border-gray-600 gap-1" id="bookingSection">
+                <div class="flex flex-col items-center px-2 py-1 relative flex-1">
+                    <span class="text-go-yatra-teal text-[10px] uppercase font-semibold">From</span>
+                    <input type="text" id="fromDestination" class="header-input font-bold" placeholder="Kathmandu" autocomplete="off">
+                    <span class="text-gray-400 text-[10px]">Origin</span>
+                </div>
+                <i class="fas fa-exchange-alt text-gray-400 text-xs"></i>
+                <div class="flex flex-col items-center px-2 py-1 relative flex-1">
+                    <span class="text-go-yatra-teal text-[10px] uppercase font-semibold">To</span>
+                    <input type="text" id="toDestination" class="header-input font-bold" placeholder="Destination" autocomplete="off">
+                    <span class="text-gray-400 text-[10px]">Destination</span>
+                </div>
+                <div class="flex flex-col items-center px-2 py-1 flex-1">
+                    <span class="text-go-yatra-teal text-[10px] uppercase font-semibold">Date</span>
+                    <div class="calendar-wrapper flex items-center justify-center w-full gap-1">
+                        <input type="date" id="departDate" class="font-bold">
+                        <button class="date-toggle-btn active" data-calendar="ad" onclick="toggleCalendar('ad', 'departDate')">AD</button>
+                        <button class="date-toggle-btn" data-calendar="bs" onclick="toggleCalendar('bs', 'departDate')">BS</button>
+                    </div>
+                    <span class="text-gray-400 text-[10px]">Depart</span>
+                </div>
+                <div class="flex flex-col items-center px-2 py-1 relative flex-1" id="passengerInputContainer">
+                    <span class="text-go-yatra-teal text-[10px] uppercase font-semibold">Passengers</span>
+                    <input type="text" id="passengerCountDisplay" value="1 Passenger" class="header-input font-bold" readonly>
+                    <span class="text-gray-400 text-[10px]">Total</span>
+                    <div id="passengerDropdown" class="passenger-dropdown">
+                        <div class="passenger-control">
+                            <span class="text-gray-800 font-medium">Adults</span>
+                            <div class="flex items-center space-x-2">
+                                <button type="button" onclick="adjustPassenger('minus', 'adults')">-</button>
+                                <span id="adultCount" class="text-gray-800 font-bold w-6 text-center">1</span>
+                                <button type="button" onclick="adjustPassenger('plus', 'adults')">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 px-2 py-1 flex-1 cursor-pointer" id="womenBookingButton">
+                    <img src="womanbook.jpg" alt="Women" class="w-6 h-6 custom-logo-radius1">
+                    <div class="flex flex-col text-left">
+                        <span class="text-white text-xs font-semibold">Women</span>
+                        <a href="#" id="knowMoreLink" class="text-blue-300 text-[10px] hover:underline" onclick="event.preventDefault(); openWomenModal()">Know more</a>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="womenBookingToggle" onchange="toggleWomenBooking()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button class="bg-go-yatra-light text-white px-4 py-2 rounded-full font-semibold text-xs shadow-lg hover:bg-go-yatra-teal transition" onclick="handleSearch()">SEARCH BUS</button>
+            </div>
+
+            <div class="md:hidden w-full mobile-booking-container" id="mobileBookingContainer">
+                <button class="absolute top-2 right-2 text-white text-lg" onclick="document.getElementById('mobileBookingContainer').style.display='none'">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="mobile-booking-row">
+                    <div class="mobile-booking-item relative">
+                        <span class="text-go-yatra-teal text-xs uppercase font-semibold">From</span>
+                        <input type="text" id="fromDestinationMobile" class="header-input font-bold" placeholder="Kathmandu" autocomplete="off">
+                    </div>
+                    <div class="mobile-booking-item relative">
+                        <span class="text-go-yatra-teal text-xs uppercase font-semibold">To</span>
+                        <input type="text" id="toDestinationMobile" class="header-input font-bold" placeholder="Destination" autocomplete="off">
+                    </div>
+                </div>
+                <div class="mobile-booking-row">
+                    <div class="mobile-booking-item">
+                        <span class="text-go-yatra-teal text-xs uppercase font-semibold">Date</span>
+                        <div class="calendar-wrapper flex items-center justify-center gap-1">
+                            <input type="date" id="departDateMobile" class="font-bold">
+                            <button class="date-toggle-btn active" data-calendar="ad" onclick="toggleCalendar('ad', 'departDateMobile')">AD</button>
+                            <button class="date-toggle-btn" data-calendar="bs" onclick="toggleCalendar('bs', 'departDateMobile')">BS</button>
+                        </div>
+                    </div>
+                    <div class="mobile-booking-item relative" id="mobilePassengerContainer">
+                        <span class="text-go-yatra-teal text-xs uppercase font-semibold">Passengers</span>
+                        <input type="text" id="passengerCountDisplayMobile" value="1 Passenger" class="header-input font-bold" readonly onclick="toggleMobilePassengerDropdown()">
+                        <div id="mobilePassengerDropdown" class="mobile-passenger-dropdown">
+                            <div class="passenger-control">
+                                <span class="text-gray-800 font-medium">Adults</span>
+                                <div class="flex items-center space-x-2">
+                                    <button type="button" onclick="adjustMobilePassenger('minus')">-</button>
+                                    <span id="mobileAdultCount" class="text-gray-800 font-bold w-6 text-center">1</span>
+                                    <button type="button" onclick="adjustMobilePassenger('plus')">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mobile-booking-row">
+                    <div class="mobile-booking-item flex items-center justify-center gap-2">
+                        <img src="womanbook.jpg" alt="Women" class="w-5 h-5">
+                        <span class="text-white text-xs">Women</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="womenBookingToggleMobile" onchange="toggleWomenBookingMobile()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <button class="bg-go-yatra-light text-white mobile-search-button font-semibold shadow-lg" onclick="handleSearchMobile()">SEARCH BUS</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sign Up Modal -->
+    <div id="signUpModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeSignUpModal()">&times;</span>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Sign Up - Register Your Vehicle</h3>
+            <p class="text-gray-600 mb-4">Join GoYatra and start earning with your vehicle</p>
+            
+            <form id="signUpForm" onsubmit="handleSignUp(event)">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Full Name *</label>
+                        <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-go-yatra-teal">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Email *</label>
+                        <input type="email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-go-yatra-teal">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Phone Number *</label>
+                        <input type="tel" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-go-yatra-teal">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Password *</label>
+                        <input type="password" required minlength="6" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-go-yatra-teal">
+                    </div>
+                </div>
+                
+                <h4 class="font-bold text-lg mb-3">Vehicle Information</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Vehicle Type *</label>
+                        <select required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-go-yatra-teal">
+                            <option value="">Select Vehicle Type</option>
+                            <option value="bus">Bus</option>
+                            <option value="hiace">Hiace</option>
+                            <option value="jeep">Jeep</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Vehicle Number *</label>
+                        <input type="text" required placeholder="e.g., BA 1 KHA 1234" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-go-yatra-teal">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Seat Capacity *</label>
+                        <input type="number" required min="1" max="50" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-go-yatra-teal">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Vehicle Model</label>
+                        <input type="text" placeholder="e.g., Toyota Coaster 2020" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-go-yatra-teal">
+                    </div>
+                </div>
+                
+                <h4 class="font-bold text-lg mb-3">Route Information</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Primary Route *</label>
+                        <input type="text" required placeholder="e.g., Kathmandu - Pokhara" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-go-yatra-teal">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">License Number *</label>
+                        <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-go-yatra-teal">
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full bg-go-yatra-teal text-white py-3 rounded-lg font-bold hover:bg-go-yatra-light transition">Register Vehicle</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div id="searchOverlay" class="search-overlay">
+        <button class="overlay-close" onclick="closeSearchOverlay()"><i class="fas fa-times"></i></button>
+        <div class="container mx-auto px-4 pt-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 text-gray-800">Available Vehicles</h2>
+            <div class="max-w-5xl mx-auto" id="searchResults">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="vehicleGrid"></div>
+                <div class="flex justify-center mt-6 gap-3">
+                    <button class="nav-btn" onclick="closeSearchOverlay()">Back to Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seat Selection Modal (for Bus Tickets) -->
+    <div id="seatSelectionModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeSeatModal()">&times;</span>
+            <div class="mb-4">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-2" id="selectedBusName">Select Your Seats</h3>
+                <div class="flex flex-wrap gap-3 text-xs">
+                    <span class="flex items-center"><span class="seat available w-6 h-6 mr-1"></span> Available</span>
+                    <span class="flex items-center"><span class="seat occupied w-6 h-6 mr-1"></span> Occupied</span>
+                    <span class="flex items-center"><span class="seat selected w-6 h-6 mr-1"></span> Selected</span>
+                    <span class="flex items-center"><span class="seat women-reserved w-6 h-6 mr-1"></span> Women Reserved 🌸</span>
+                </div>
+            </div>
+            <div class="bg-gray-100 p-3 md:p-4 rounded-lg mb-4">
+                <div class="bus-layout" id="busSeatLayout"></div>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+                <div class="text-center md:text-left">
+                    <p class="text-gray-600">Selected Seats: <span id="selectedSeatsCount">0</span></p>
+                    <p class="font-bold text-lg">Total: Rs. <span id="totalPrice">0</span></p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="nav-btn" onclick="backToVehicles()">Back</button>
+                    <button class="bg-go-yatra-teal text-white px-5 py-2 rounded-lg font-semibold hover:bg-go-yatra-light transition" onclick="openPaymentModal()">Confirm & Pay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closePaymentModal()">&times;</span>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Confirm Payment</h3>
+            <div class="mb-4 p-4 bg-gray-50 rounded-lg">
+                <div class="flex justify-between mb-2"><span>Bus:</span><span id="paymentBusName" class="font-semibold"></span></div>
+                <div class="flex justify-between mb-2"><span>Seats:</span><span id="paymentSeats" class="font-semibold"></span></div>
+                <div class="flex justify-between mb-2"><span>Total Amount:</span><span id="paymentAmount" class="font-semibold text-lg"></span></div>
+            </div>
+            <div class="mb-4">
+                <h4 class="font-semibold mb-2">Select Payment Method</h4>
+                <div class="payment-methods" id="paymentMethods">
+                    <div class="payment-method selected" data-method="esewa" onclick="selectPaymentMethod(this)">
+                        <img src="esewa.png" alt="eSewa"> eSewa
+                    </div>
+                    <div class="payment-method" data-method="khalti" onclick="selectPaymentMethod(this)">
+                        <img src="khalti.png" alt="Khalti"> Khalti
+                    </div>
+                    <div class="payment-method" data-method="card" onclick="selectPaymentMethod(this)">
+                        <i class="fas fa-credit-card text-2xl"></i> Card
+                    </div>
+                </div>
+            </div>
+            <div class="qr-container" id="qrContainer">
+                <h4 class="font-semibold mb-3">Scan QR Code to Pay</h4>
+                <div class="qr-placeholder" id="qrCode">
+                    <i class="fas fa-qrcode text-4xl text-gray-400"></i>
+                </div>
+                <p class="text-sm text-gray-600 mt-2" id="qrInstructions">Scan with your mobile banking app</p>
+            </div>
+            <button class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition mt-4" onclick="processPayment()">Pay Now</button>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeReceiptModal()">&times;</span>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Payment Receipt</h3>
+            <div class="border-2 border-dashed border-gray-300 p-4 rounded-lg mb-4">
+                <div class="text-center mb-3">
+                    <h4 class="font-bold text-lg">GoYatra Booking Receipt</h4>
+                    <p class="text-xs text-gray-600">Receipt #: GY-<span id="receiptNumber"></span></p>
+                </div>
+                <div class="space-y-2 text-sm" id="receiptDetails"></div>
+                <div class="text-center mt-4">
+                    <p class="text-xs text-gray-500">Thank you for choosing GoYatra!</p>
+                </div>
+            </div>
+            <button class="w-full bg-go-yatra-teal text-white py-2 rounded-lg font-semibold hover:bg-go-yatra-light transition" onclick="closeReceiptModal()">Done</button>
+        </div>
+    </div>
+
+    <!-- Women Booking Modal -->
+    <div id="womenBookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeWomenModal()">&times;</span>
+            <div class="flex items-center space-x-3 mb-4">
+                <img src="womanbook.jpg" alt="Women Icon" class="w-8 h-8">
+                <h3 class="text-2xl font-bold text-gray-800">Booking for women</h3>
+            </div>
+            <p class="text-gray-600 mb-4">Providing helpful details to smartly choose bus travel for women.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <div class="p-3 bg-pink-50 rounded-lg text-center"><p class="font-semibold text-sm">Exclusive deals</p></div>
+                <div class="p-3 bg-purple-50 rounded-lg text-center"><p class="font-semibold text-sm">Women travellers info</p></div>
+                <div class="p-3 bg-green-50 rounded-lg text-center"><p class="font-semibold text-sm">Priority helpline</p></div>
+                <div class="p-3 bg-blue-50 rounded-lg text-center"><p class="font-semibold text-sm">Preferred seats 🌸</p></div>
+            </div>
+            <button class="w-full bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600 transition" onclick="closeWomenModal()">Got it</button>
+        </div>
+    </div>
+
+    <!-- Tourist Attractions Modal -->
+    <div id="attractionsModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="close-button" onclick="closeAttractionsModal()">&times;</span>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4" id="attractionsTitle"></h3>
+            <div id="attractionsContent" class="space-y-6"></div>
+        </div>
+    </div>
+
+    <!-- ===================== MAIN CONTENT (SINGHA TECHNE) ===================== -->
+    <main class="container mx-auto px-4 py-8 md:py-16">
+
+        <!-- Vehicle Rentals Section -->
+        <section id="vehiclesSection" class="mb-12 md:mb-20 animate-on-scroll bg-section-light rounded-3xl p-8">
+            <p class="text-xs font-semibold uppercase tracking-widest text-secondary-dark mb-1">TRAVELER'S FAVOURITE</p>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">
+                Explore All Popular <br class="hidden md:inline"> Vehicles
+            </h1>
+            <p class="text-base text-secondary-dark max-w-xl mb-8 md:mb-12">
+                Plan, book, and embark on your dream adventure with our expert guidance and tailored experiences.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8" id="vehicle-container">
+                <!-- Vehicles will be dynamically added here -->
+            </div>
+        </section>
+
+        <hr class="border-gray-100 my-8 md:my-16">
+        
+        <!-- Book Your Next Trip Section -->
+        <section class="animate-on-scroll bg-section-lighter rounded-3xl p-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-primary-dark mb-8 md:mb-12">
+                Book your Next Trip
+            </h2>
+
+            <nav class="flex space-x-6 md:space-x-10 mb-8 overflow-x-auto whitespace-nowrap scroll-container" aria-label="Trip Categories">
+                <a href="#" class="nav-link active pb-2 text-lg transition duration-150 ease-in-out" data-category="popular" aria-current="page">Popular Cities</a>
+                <a href="#" class="nav-link text-nav-inactive hover:text-nav-active pb-2 text-lg transition duration-150 ease-in-out" data-category="mountains">Mountains</a>
+                <a href="#" class="nav-link text-nav-inactive hover:text-nav-active pb-2 text-lg transition duration-150 ease-in-out" data-category="cities">Cities</a>
+                <a href="#" class="nav-link text-nav-inactive hover:text-nav-active pb-2 text-lg transition duration-150 ease-in-out" data-category="nature">Nature & Wildlife</a>
+            </nav>
+
+            <div class="relative">
+                <div class="flex overflow-x-auto space-x-6 md:space-x-8 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 scroll-container" id="destination-cards">
+                    <!-- Destination cards will be dynamically added here -->
+                </div>
+                
+                <button id="scroll-left" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-4 opacity-70 hover:opacity-100 transition-opacity hidden md:block">
+                    <i class="fas fa-chevron-left text-gray-700 text-xl"></i>
+                </button>
+                <button id="scroll-right" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-4 opacity-70 hover:opacity-100 transition-opacity hidden md:block">
+                    <i class="fas fa-chevron-right text-gray-700 text-xl"></i>
+                </button>
+            </div>
+        </section>
+
+        <hr class="border-gray-100 my-8 md:my-16">
+
+        <!-- Winter Special Trip Section -->
+        <section class="animate-on-scroll bg-section-light rounded-3xl p-8">
+            <div class="text-center mb-16 md:mb-20">
+                <h1 class="text-3xl sm:text-4xl font-semibold mb-3">Winter Special Trip in Nepal</h1>
+                <p class="text-base text-gray-500 max-w-xl mx-auto">Experience the magic of Nepal in winter with our specially curated packages.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-24 md:mb-32" id="winter-cards">
+                <!-- Winter cards will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- Adventure Banner Section -->
+        <section class="animate-on-scroll bg-section-lighter rounded-3xl p-8">
+            <div class="max-w-6xl w-full mx-auto bg-white p-4 sm:p-6 lg:p-8 rounded-[40px] shadow-custom-container">
+                <div class="relative w-full overflow-hidden rounded-[30px] lg:rounded-4xl aspect-[16/7] sm:aspect-[16/6] lg:aspect-[16/5] xl:aspect-[16/4]">
+                    <img 
+                        src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80" 
+                        alt="A scenic view of mountains in Nepal" 
+                        class="absolute inset-0 w-full h-full object-cover floating" 
+                        loading="lazy"
+                    >
+                    <div class="absolute inset-0 bg-black/10"></div>
+                    <div class="relative z-10 w-full h-full flex flex-col justify-center items-center text-white p-4 text-center">
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6 sm:mb-8 tracking-tight">
+                            Ready for your Next Adventure
+                        </h1>
+                        <button 
+                            class="flex items-center space-x-2 bg-cta-blue hover:bg-cta-blue-dark text-white font-medium py-2.5 px-6 rounded-lg shadow-cta-shadow transition duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-cta-blue/50"
+                            aria-label="Book your next adventure now"
+                            onclick="document.getElementById('vehiclesSection').scrollIntoView({behavior:'smooth'})"
+                        >
+                            <span>Book Now</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- ===================== VEHICLE RENTAL BOOKING MODAL ===================== -->
+    <div id="rentalBookingModal" class="modal">
+        <div class="modal-content max-w-4xl">
+            <span class="close-button" onclick="closeRentalModal()">&times;</span>
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 mb-2" id="rentalModalTitle">Book Your Vehicle</h3>
+                <p class="text-gray-600">Fill in the details to book your vehicle</p>
+            </div>
+            
+            <!-- Step indicator -->
+            <div class="flex mb-6">
+                <div class="step active flex-1 text-center" id="step1Indicator">1. Vehicle</div>
+                <div class="step flex-1 text-center" id="step2Indicator">2. Details</div>
+                <div class="step flex-1 text-center" id="step3Indicator">3. Confirm</div>
+            </div>
+            
+            <!-- Step 1: Vehicle selection -->
+            <div id="step1" class="booking-step">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="vehicleTypeSelection">
+                    <!-- Vehicle type cards will be inserted here -->
+                </div>
+                <div id="specificVehicleList" class="mt-6 hidden">
+                    <h4 class="font-bold mb-3 text-lg">Select Specific Vehicle</h4>
+                    <div class="space-y-4" id="specificVehicleOptions">
+                        <!-- Specific vehicles will be inserted here -->
+                    </div>
+                </div>
+                <div class="flex justify-end mt-6">
+                    <button class="bg-gray-300 px-4 py-2 rounded-lg" onclick="closeRentalModal()">Cancel</button>
+                </div>
+            </div>
+            
+            <!-- Step 2: Booking details (no seat selection) -->
+            <div id="step2" class="booking-step hidden">
+                <form id="rentalBookingForm" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                            <input type="text" id="rentalFullName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                            <input type="email" id="rentalEmail" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                            <input type="tel" id="rentalPhone" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Number of Passengers *</label>
+                            <input type="number" id="rentalPassengers" min="1" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Number of Days *</label>
+                            <input type="number" id="rentalDays" min="1" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Pickup Date *</label>
+                            <input type="date" id="rentalPickupDate" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Pickup Location *</label>
+                        <input type="text" id="rentalPickupLocation" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Destination *</label>
+                        <input type="text" id="rentalDestination" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue">
+                    </div>
+                    <!-- Dynamic route cities -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Route / Cities to Visit</label>
+                        <div id="routeCitiesContainer">
+                            <div class="flex gap-2 mb-2">
+                                <input type="text" class="route-city-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue" placeholder="City 1">
+                                <button type="button" class="bg-red-100 text-red-600 px-3 rounded-md hover:bg-red-200 transition" onclick="removeCityField(this)"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <button type="button" class="mt-2 text-sm text-cta-blue hover:text-cta-blue-dark" onclick="addCityField()"><i class="fas fa-plus mr-1"></i> Add City</button>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Special Requests</label>
+                        <textarea id="rentalSpecialRequests" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue"></textarea>
+                    </div>
+                    <div class="flex justify-between items-center mt-6">
+                        <div>
+                            <p class="text-gray-600">Vehicle: <span id="rentalBookingVehicleType" class="font-semibold"></span></p>
+                            <p class="font-bold text-lg">Total: Rs. <span id="rentalTotalPrice">0</span></p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="button" class="bg-gray-300 px-4 py-2 rounded-lg" onclick="prevStep(1)">Back</button>
+                            <button type="button" class="bg-cta-blue text-white px-6 py-2 rounded-lg" onclick="nextStep(3)">Next</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Step 3: Confirmation -->
+            <div id="step3" class="booking-step hidden">
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                    <h4 class="font-bold mb-2">Booking Summary</h4>
+                    <div id="rentalSummaryContent"></div>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button class="bg-gray-300 px-4 py-2 rounded-lg" onclick="prevStep(2)">Back</button>
+                    <button class="bg-green-600 text-white px-6 py-2 rounded-lg" onclick="confirmRentalBooking()">Proceed to Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Destination Info Modal -->
+    <div id="destinationModal" class="modal">
+        <div class="modal-content max-w-2xl">
+            <span class="close-button" onclick="closeDestinationModal()">&times;</span>
+            <h3 class="text-2xl font-bold mb-4" id="destinationModalTitle"></h3>
+            <div id="destinationModalContent"></div>
+            <div class="mt-4 flex justify-end">
+                <button class="bg-cta-blue text-white px-4 py-2 rounded-lg" onclick="openVehicleTypeSelection()">Book Vehicle for this Destination</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vehicle Selection for Destination -->
+    <div id="destinationVehicleModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeDestinationVehicleModal()">&times;</span>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Select Vehicle Type</h3>
+            <p class="text-gray-600 mb-4">Choose your preferred vehicle for the trip</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white rounded-xl shadow p-4 text-center cursor-pointer hover:shadow-lg transition" onclick="openRentalForType('hiace')">
+                    <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80" class="w-full h-32 object-cover rounded-lg mb-2">
+                    <h4 class="font-bold">Hiace</h4>
+                    <p class="text-sm text-gray-600">Comfortable van for groups</p>
+                </div>
+                <div class="bg-white rounded-xl shadow p-4 text-center cursor-pointer hover:shadow-lg transition" onclick="openRentalForType('jeep')">
+                    <img src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&w=600&q=80" class="w-full h-32 object-cover rounded-lg mb-2">
+                    <h4 class="font-bold">Jeep</h4>
+                    <p class="text-sm text-gray-600">Perfect for off-road adventures</p>
+                </div>
+                <div class="bg-white rounded-xl shadow p-4 text-center cursor-pointer hover:shadow-lg transition" onclick="openRentalForType('bus')">
+                    <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80" class="w-full h-32 object-cover rounded-lg mb-2">
+                    <h4 class="font-bold">Bus</h4>
+                    <p class="text-sm text-gray-600">Ideal for large groups</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== GOYATRA FOOTER (EXACT FROM CODE2) ===================== -->
+    <footer class="footer-stylish text-white py-12 mt-8">
+        <div class="footer-content container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div>
+                            <h3 class="text-2xl font-extrabold">GoYatra</h3>
+                            <p class="text-xs text-gray-300">Travel & Tours Pvt. Ltd.</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-300 mb-4">We are dedicated to providing swift, easy, and comfortable travel experiences. Your journey is our priority. Experience Nepal's beauty with our premium fleet.</p>
+                   
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-go-yatra-teal flex items-center justify-center transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-go-yatra-teal flex items-center justify-center transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-go-yatra-teal flex items-center justify-center transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-go-yatra-teal flex items-center justify-center transition"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-go-yatra-light">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition"><i class="fas fa-chevron-right text-xs mr-2"></i>About Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition"><i class="fas fa-chevron-right text-xs mr-2"></i>Contact Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition"><i class="fas fa-chevron-right text-xs mr-2"></i>Terms & Conditions</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition"><i class="fas fa-chevron-right text-xs mr-2"></i>Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition"><i class="fas fa-chevron-right text-xs mr-2"></i>FAQs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-go-yatra-light">Contact Info</h4>
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li><i class="fas fa-map-marker-alt mr-2 text-go-yatra-teal"></i> Koteswor, Kathmandu, Nepal</li>
+                        <li><i class="fas fa-phone mr-2 text-go-yatra-teal"></i> +977 9855049452</li>
+                        <li><i class="fas fa-envelope mr-2 text-go-yatra-teal"></i> support@goyatra.com</li>
+                        <li><i class="fas fa-clock mr-2 text-go-yatra-teal"></i> 10:00 AM - 5:00 PM</li>
+                    </ul>
+                    <div class="mt-4">
+                        <h5 class="font-semibold mb-2">We Accept</h5>
+                        <div class="flex gap-2">
+                            <img src="esewa.png" class="h-8 rounded bg-white p-1">
+                            <img src="khalti.png" class="h-8 rounded bg-white p-1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/20 mt-8 pt-6 text-center">
+                <p class="text-xs text-gray-400">&copy; 2025 GoYatra. All rights reserved. | Powered by SINGHA TECHNE PVT. LTD.</p>
+                <p class="text-xs text-gray-500 mt-2">Proudly serving Nepal's travelers with comfort and reliability</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <div class="whatsapp-float">
+        <div class="whatsapp-questions" id="whatsappQuestions">
+            <h4 class="font-bold text-gray-800 mb-3 text-sm">Quick Questions</h4>
+            <button class="whatsapp-question" onclick="sendWhatsApp('I want to book a ticket')">🎫 I want to book a ticket</button>
+            <button class="whatsapp-question" onclick="sendWhatsApp('What vehicles are available?')">🚌 What vehicles are available?</button>
+            <button class="whatsapp-question" onclick="sendWhatsApp('I need to change my ticket')">🔄 I need to change my ticket</button>
+            <button class="whatsapp-question" onclick="sendWhatsApp('What are the boarding points?')">📍 What are the boarding points?</button>
+            <button class="whatsapp-question" onclick="sendWhatsApp('Do you have women-only seats?')">👩 Do you have women-only seats?</button>
+            <button class="whatsapp-question" onclick="sendWhatsApp('I want to cancel my booking')">❌ I want to cancel my booking</button>
+        </div>
+        <button class="whatsapp-main-btn" onclick="toggleWhatsAppQuestions()">
+            <i class="fab fa-whatsapp"></i>
+        </button>
+    </div>
+
+    <script>
+        // ===================== GLOBAL STATE =====================
+        const nepalCities = ["Kathmandu", "Pokhara", "Lalitpur", "Biratnagar", "Bharatpur", "Birgunj", "Dharan", "Butwal", "Hetauda", "Dhangadhi", "Janakpur", "Nepalgunj", "Itahari", "Tulsipur", "Ghorahi", "Siddharthanagar", "Birendranagar", "Kakarvitta", "Damak", "Besisahar", "Charikot", "Jumla", "Damauli", "Baglung", "Tansen", "Rajbiraj", "Lahan", "Siraha", "Malangwa", "Gorkha", "Illam", "Bhadrapur", "Dhankuta", "Bhojpur", "Khandbari", "Dipayal", "Silgadhi", "Manang", "Mustang", "Lukla", "Namche Bazar"];
+        
+        let adultCount = 1;
+        let mobileAdultCount = 1;
+        let selectedSeats = [];
+        let currentBusPrice = 0;
+        let currentVehicle = '';
+        let womenBookingEnabled = false;
+        let selectedPaymentMethod = 'esewa';
+        
+        // Bus ticketing vehicles
+        const allVehicles = [
+            { id: 'deluxe1', name: 'GoYatra Deluxe A/C', price: 1200, vehicle: 'bus', rows: 10, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80', boarding: ['Chabahil', 'Bus Park'], departure: '7:00 AM', arrival: '3:00 PM' },
+            { id: 'hiace1', name: 'GoYatra Hiace Express', price: 900, vehicle: 'hiace', rows: 6, seatsPerRow: 3, image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=600&q=80', boarding: ['Kalanki', 'Balkhu'], departure: '9:30 AM', arrival: '5:30 PM' },
+            { id: 'jeep1', name: 'GoYatra Jeep Adventure', price: 1100, vehicle: 'jeep', rows: 5, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80', boarding: ['Koteswor', 'Airport'], departure: '10:00 PM', arrival: '6:00 AM' },
+            { id: 'express1', name: 'GoYatra Express Bus', price: 950, vehicle: 'bus', rows: 9, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=80', boarding: ['New Baneshwor'], departure: '12:00 PM', arrival: '8:00 PM' },
+            { id: 'deluxe2', name: 'GoYatra Super Deluxe', price: 1500, vehicle: 'bus', rows: 10, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=600&q=80', boarding: ['Chabahil', 'Bus Park'], departure: '8:00 AM', arrival: '4:00 PM' },
+            { id: 'hiace2', name: 'GoYatra Tourist Hiace', price: 1000, vehicle: 'hiace', rows: 6, seatsPerRow: 3, image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=600&q=80', boarding: ['Kalanki', 'Balkhu'], departure: '10:30 AM', arrival: '6:30 PM' },
+            { id: 'jeep2', name: 'GoYatra Mountain Jeep', price: 1300, vehicle: 'jeep', rows: 5, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80', boarding: ['Koteswor', 'Airport'], departure: '11:00 PM', arrival: '7:00 AM' },
+            { id: 'express2', name: 'GoYatra Night Express', price: 1050, vehicle: 'bus', rows: 9, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=80', boarding: ['New Baneshwor'], departure: '1:00 PM', arrival: '9:00 PM' },
+            { id: 'deluxe3', name: 'GoYatra Luxury Coach', price: 1800, vehicle: 'bus', rows: 10, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80', boarding: ['Chabahil', 'Bus Park'], departure: '6:30 AM', arrival: '2:30 PM' },
+            { id: 'hiace3', name: 'GoYatra Premium Hiace', price: 1100, vehicle: 'hiace', rows: 6, seatsPerRow: 3, image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=600&q=80', boarding: ['Kalanki', 'Balkhu'], departure: '11:30 AM', arrival: '7:30 PM' },
+            { id: 'jeep3', name: 'GoYatra Safari Jeep', price: 1400, vehicle: 'jeep', rows: 5, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80', boarding: ['Koteswor', 'Airport'], departure: '9:00 PM', arrival: '5:00 AM' },
+            { id: 'express3', name: 'GoYatra Eco Express', price: 900, vehicle: 'bus', rows: 9, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=80', boarding: ['New Baneshwor'], departure: '2:00 PM', arrival: '10:00 PM' },
+            { id: 'deluxe4', name: 'GoYatra VIP Bus', price: 2000, vehicle: 'bus', rows: 10, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80', boarding: ['Chabahil', 'Bus Park'], departure: '5:30 AM', arrival: '1:30 PM' },
+            { id: 'hiace4', name: 'GoYatra City Hiace', price: 850, vehicle: 'hiace', rows: 6, seatsPerRow: 3, image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=600&q=80', boarding: ['Kalanki', 'Balkhu'], departure: '8:30 AM', arrival: '4:30 PM' },
+            { id: 'jeep4', name: 'GoYatra Hill Jeep', price: 1200, vehicle: 'jeep', rows: 5, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80', boarding: ['Koteswor', 'Airport'], departure: '8:00 PM', arrival: '4:00 AM' },
+            { id: 'express4', name: 'GoYatra Quick Express', price: 980, vehicle: 'bus', rows: 9, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=80', boarding: ['New Baneshwor'], departure: '3:00 PM', arrival: '11:00 PM' },
+            { id: 'deluxe5', name: 'GoYatra Royal Bus', price: 2200, vehicle: 'bus', rows: 10, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80', boarding: ['Chabahil', 'Bus Park'], departure: '4:30 AM', arrival: '12:30 PM' },
+            { id: 'hiace5', name: 'GoYatra Comfort Hiace', price: 950, vehicle: 'hiace', rows: 6, seatsPerRow: 3, image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=600&q=80', boarding: ['Kalanki', 'Balkhu'], departure: '7:30 AM', arrival: '3:30 PM' },
+            { id: 'jeep5', name: 'GoYatra Trek Jeep', price: 1350, vehicle: 'jeep', rows: 5, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80', boarding: ['Koteswor', 'Airport'], departure: '7:00 PM', arrival: '3:00 AM' },
+            { id: 'express5', name: 'GoYatra Fast Express', price: 920, vehicle: 'bus', rows: 9, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=80', boarding: ['New Baneshwor'], departure: '4:00 PM', arrival: '12:00 AM' },
+            { id: 'deluxe6', name: 'GoYatra Executive Bus', price: 1900, vehicle: 'bus', rows: 10, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80', boarding: ['Chabahil', 'Bus Park'], departure: '5:00 AM', arrival: '1:00 PM' },
+            { id: 'hiace6', name: 'GoYatra Shuttle Hiace', price: 800, vehicle: 'hiace', rows: 6, seatsPerRow: 3, image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=600&q=80', boarding: ['Kalanki', 'Balkhu'], departure: '6:30 AM', arrival: '2:30 PM' },
+            { id: 'jeep6', name: 'GoYatra Valley Jeep', price: 1150, vehicle: 'jeep', rows: 5, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80', boarding: ['Koteswor', 'Airport'], departure: '6:00 PM', arrival: '2:00 AM' },
+            { id: 'express6', name: 'GoYatra Metro Express', price: 880, vehicle: 'bus', rows: 9, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=80', boarding: ['New Baneshwor'], departure: '5:00 PM', arrival: '1:00 AM' },
+            { id: 'deluxe7', name: 'GoYatra Heritage Bus', price: 1700, vehicle: 'bus', rows: 10, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80', boarding: ['Chabahil', 'Bus Park'], departure: '3:30 AM', arrival: '11:30 AM' },
+            { id: 'hiace7', name: 'GoYatra Swift Hiace', price: 930, vehicle: 'hiace', rows: 6, seatsPerRow: 3, image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=600&q=80', boarding: ['Kalanki', 'Balkhu'], departure: '5:30 AM', arrival: '1:30 PM' },
+            { id: 'jeep7', name: 'GoYatra Explorer Jeep', price: 1250, vehicle: 'jeep', rows: 5, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80', boarding: ['Koteswor', 'Airport'], departure: '5:00 PM', arrival: '1:00 AM' },
+            { id: 'express7', name: 'GoYatra Prime Express', price: 890, vehicle: 'bus', rows: 9, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=80', boarding: ['New Baneshwor'], departure: '6:00 PM', arrival: '2:00 AM' },
+            { id: 'deluxe8', name: 'GoYatra Comfort Bus', price: 1400, vehicle: 'bus', rows: 10, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80', boarding: ['Chabahil', 'Bus Park'], departure: '2:30 AM', arrival: '10:30 AM' },
+            { id: 'hiace8', name: 'GoYatra Easy Hiace', price: 870, vehicle: 'hiace', rows: 6, seatsPerRow: 3, image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=600&q=80', boarding: ['Kalanki', 'Balkhu'], departure: '4:30 AM', arrival: '12:30 PM' },
+            { id: 'jeep8', name: 'GoYatra Adventure Jeep', price: 1180, vehicle: 'jeep', rows: 5, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80', boarding: ['Koteswor', 'Airport'], departure: '4:00 PM', arrival: '12:00 AM' },
+            { id: 'express8', name: 'GoYatra Standard Express', price: 850, vehicle: 'bus', rows: 9, seatsPerRow: 4, image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=80', boarding: ['New Baneshwor'], departure: '7:00 PM', arrival: '3:00 AM' }
+        ];
+        
+        // Rental vehicles (whole vehicle booking) - with images for variants
+        const rentalVehicleData = [
+            {
+                type: 'hiace',
+                name: 'Hiace',
+                image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80',
+                pricePerDay: 5000,
+                capacity: 14,
+                variants: [
+                    { id: 101, name: "Hiace Deluxe", features: ["A/C", "Wi-Fi", "Charging Ports"], capacity: 12, image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&q=80" },
+                    { id: 102, name: "Hiace Premium", features: ["A/C", "Wi-Fi", "Entertainment System"], capacity: 10, image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=400&q=80" },
+                    { id: 103, name: "Hiace Standard", features: ["A/C", "Comfort Seats"], capacity: 14, image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=400&q=80" }
+                ]
+            },
+            {
+                type: 'jeep',
+                name: 'Jeep',
+                image: 'https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&w=600&q=80',
+                pricePerDay: 4000,
+                capacity: 5,
+                variants: [
+                    { id: 201, name: "Jeep Wrangler", features: ["4WD", "A/C", "Off-road Capability"], capacity: 5, image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=400&q=80" },
+                    { id: 202, name: "Jeep Cherokee", features: ["4WD", "A/C", "Spacious Interior"], capacity: 5, image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=400&q=80" },
+                    { id: 203, name: "Jeep Grand Cherokee", features: ["4WD", "Luxury Interior", "Entertainment"], capacity: 5, image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=400&q=80" }
+                ]
+            },
+            {
+                type: 'bus',
+                name: 'Bus',
+                image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80',
+                pricePerDay: 8000,
+                capacity: 40,
+                variants: [
+                    { id: 301, name: "Luxury Coach", features: ["A/C", "Wi-Fi", "Reclining Seats", "Entertainment"], capacity: 40, image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&q=80" },
+                    { id: 302, name: "Standard Bus", features: ["A/C", "Comfortable Seating"], capacity: 35, image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=400&q=80" },
+                    { id: 303, name: "Mini Bus", features: ["A/C", "Maneuverable"], capacity: 25, image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=400&q=80" }
+                ]
+            }
+        ];
+        
+        // Destination data
+        const destinations = {
+            popular: [
+                { name: "Kathmandu", image: "https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&w=600&q=80", description: "Capital city with ancient temples, palaces, and vibrant culture", attractions: ["Durbar Square", "Swayambhunath", "Pashupatinath", "Boudhanath"], images: ["https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1605640840605-14ac1855827b?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1591284534468-8e1b4f71c0b0?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Pokhara", image: "https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?auto=format&fit=crop&w=600&q=80", description: "Lakeside city with stunning views of Annapurna mountain range", attractions: ["Phewa Lake", "World Peace Pagoda", "Devi's Fall", "Sarangkot"], images: ["https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1601581875035-8c6e5b2c4f2f?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1596221239552-8e5e9cfd9246?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Chitwan", image: "https://images.unsplash.com/photo-1598894595355-90b7a5a8e3f9?auto=format&fit=crop&w=600&q=80", description: "Jungle safari destination with rhinos, tigers and elephants", attractions: ["Chitwan National Park", "Elephant Safari", "Canoe Ride", "Tharu Village"], images: ["https://images.unsplash.com/photo-1598894595355-90b7a5a8e3f9?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1564760055775-d63b17a55c44?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Lumbini", image: "https://images.unsplash.com/photo-1604537529422-4f3a2d7c6d8c?auto=format&fit=crop&w=600&q=80", description: "Birthplace of Lord Buddha, important pilgrimage site", attractions: ["Maya Devi Temple", "Ashoka Pillar", "Monasteries", "Lumbini Garden"], images: ["https://images.unsplash.com/photo-1604537529422-4f3a2d7c6d8c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1580418827493-f2b22c0a76cb?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Nagarkot", image: "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", description: "Hill station with panoramic Himalayan sunrise views", attractions: ["Sunrise Viewpoint", "Nagarkot Panoramic Hiking Trail", "Buddha Peace Park"], images: ["https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Janakpur", image: "https://images.unsplash.com/photo-1580418827493-f2b22c0a76cb?auto=format&fit=crop&w=600&q=80", description: "Historical and religious city", attractions: ["Janaki Mandir", "Ram Mandir", "Dhanush Sagar"], images: ["https://images.unsplash.com/photo-1580418827493-f2b22c0a76cb?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1580418827493-f2b22c0a76cb?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1580418827493-f2b22c0a76cb?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Butwal", image: "https://images.unsplash.com/photo-1444723121867-7a241cacace9?auto=format&fit=crop&w=600&q=80", description: "Gateway to Lumbini", attractions: ["Hill Park", "Siddha Baba Temple", "Jitgadhi Killa"], images: ["https://images.unsplash.com/photo-1444723121867-7a241cacace9?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1444723121867-7a241cacace9?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1444723121867-7a241cacace9?auto=format&fit=crop&w=600&q=80"] }
+            ],
+            mountains: [
+                { name: "Mustang", image: "https://images.unsplash.com/photo-1580136579312-94651dfd596d?auto=format&fit=crop&w=600&q=80", description: "Explore the ancient kingdom with unique Tibetan culture", attractions: ["Lo Manthang", "Muktinath Temple", "Kali Gandaki Gorge"], images: ["https://images.unsplash.com/photo-1580136579312-94651dfd596d?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1580136579312-94651dfd596d?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1580136579312-94651dfd596d?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Annapurna", image: "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", description: "World-class trekking with breathtaking mountain views", attractions: ["Annapurna Base Camp", "Poon Hill", "Machhapuchhre Base Camp"], images: ["https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Everest", image: "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", description: "The highest peak in the world", attractions: ["Everest Base Camp", "Kala Patthar", "Sagarmatha National Park"], images: ["https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Langtang", image: "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", description: "Stunning valley and trekking region", attractions: ["Langtang Valley", "Kyanjin Gompa", "Gosainkunda Lake"], images: ["https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80"] }
+            ],
+            cities: [
+                { name: "Biratnagar", image: "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", description: "Industrial city in eastern Nepal", attractions: ["Biratnagar Jute Mills", "Koshi Tappu Wildlife Reserve", "Baraha Kshetra"], images: ["https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Dharan", image: "https://we-gov.org/wp-content/uploads/kboard_attached/16/201704/58f6b5b14b24c4386155.jpg", description: "Eastern Nepal hub", attractions: ["Dharan Clock Tower", "Bhedetar", "Dantakali Temple"], images: ["https://we-gov.org/wp-content/uploads/kboard_attached/16/201704/58f6b5b14b24c4386155.jpg", "https://we-gov.org/wp-content/uploads/kboard_attached/16/201704/58f6b5b14b24c4386155.jpg", "https://we-gov.org/wp-content/uploads/kboard_attached/16/201704/58f6b5b14b24c4386155.jpg"] },
+                { name: "Nepalgunj", image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=600&q=80", description: "Western Nepal city", attractions: ["Bageshwari Temple", "Kakrebihar", "Banke National Park"], images: ["https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Hetauda", image: "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", description: "Gateway to Chitwan", attractions: ["Makwanpur Gadhi", "Churiyamai Temple", "Sahid Smarak"], images: ["https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80"] }
+            ],
+            nature: [
+                { name: "Chitwan National Park", image: "https://images.unsplash.com/photo-1598894595355-90b7a5a8e3f9?auto=format&fit=crop&w=600&q=80", description: "Wildlife safari with rhinos, elephants and tigers", attractions: ["Jungle Safari", "Elephant Bathing", "Bird Watching"], images: ["https://images.unsplash.com/photo-1598894595355-90b7a5a8e3f9?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1598894595355-90b7a5a8e3f9?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1598894595355-90b7a5a8e3f9?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Bardiya National Park", image: "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", description: "Remote wilderness with rich biodiversity", attractions: ["Tiger Tracking", "Jeep Safari", "Rafting in Karnali"], images: ["https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Shuklaphanta", image: "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", description: "Grassland and wildlife reserve", attractions: ["Swamp Deer", "Wild Elephant", "Bird Watching"], images: ["https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80"] },
+                { name: "Koshi Tappu", image: "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", description: "Bird watcher's paradise", attractions: ["Migratory Birds", "Wild Buffalo", "Fishing"], images: ["https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80"] }
+            ]
+        };
+        
+        // Winter destinations with Rs. pricing
+        const winterDestinations = [
+            { name: "Pokhara", image: "https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?auto=format&fit=crop&w=600&q=80", priceRange: "Rs. 2000-5000", description: "Lakeside city with mountain views", attractions: ["Phewa Lake", "Sarangkot Sunrise", "World Peace Pagoda"], images: ["https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1601581875035-8c6e5b2c4f2f?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1596221239552-8e5e9cfd9246?auto=format&fit=crop&w=600&q=80"] },
+            { name: "Annapurna Circuit", image: "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", priceRange: "Rs. 8000-15000", description: "World-class trekking", attractions: ["Thorong La Pass", "Muktinath", "Tatopani Hot Springs"], images: ["https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80"] },
+            { name: "Chitwan", image: "https://images.unsplash.com/photo-1598894595355-90b7a5a8e3f9?auto=format&fit=crop&w=600&q=80", priceRange: "Rs. 1500-4000", description: "Jungle safari destination", attractions: ["Elephant Safari", "Canoe Ride", "Tharu Cultural Show"], images: ["https://images.unsplash.com/photo-1598894595355-90b7a5a8e3f9?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1564760055775-d63b17a55c44?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80"] },
+            { name: "Nagarkot", image: "https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", priceRange: "Rs. 1000-3000", description: "Spectacular Himalayan sunrise views", attractions: ["Sunrise Viewpoint", "Nagarkot Tower", "Hiking Trails"], images: ["https://images.unsplash.com/photo-1544735716-2f8e3f4c4c1c?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80"] },
+            { name: "Mustang", image: "https://images.unsplash.com/photo-1580136579312-94651dfd596d?auto=format&fit=crop&w=600&q=80", priceRange: "Rs. 6000-12000", description: "Ancient kingdom with Tibetan culture", attractions: ["Lo Manthang", "Muktinath Temple", "Kali Gandaki Gorge"], images: ["https://images.unsplash.com/photo-1580136579312-94651dfd596d?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1580136579312-94651dfd596d?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1580136579312-94651dfd596d?auto=format&fit=crop&w=600&q=80"] },
+            { name: "Everest Base Camp", image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", priceRange: "Rs. 10000-20000", description: "Trek to the highest peak", attractions: ["Kala Patthar", "Namche Bazaar", "Sagarmatha National Park"], images: ["https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80"] }
+        ];
+        
+        // DOM elements
+        const vehicleContainer = document.getElementById('vehicle-container');
+        const destinationCardsContainer = document.getElementById('destination-cards');
+        const winterCardsContainer = document.getElementById('winter-cards');
+        const rentalBookingModal = document.getElementById('rentalBookingModal');
+        const destinationModal = document.getElementById('destinationModal');
+        const destinationVehicleModal = document.getElementById('destinationVehicleModal');
+        
+        // Current rental state
+        let currentRentalStep = 1;
+        let selectedRentalVehicleType = '';
+        let selectedRentalSpecificVehicle = null;
+        let rentalPricePerDay = 0;
+        let routeCities = [];
+        
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            renderVehicles();
+            renderDestinationCards('popular');
+            renderWinterCards();
+            setupEventListeners();
+            setupScrollAnimations();
+            setupMobileMenu();
+            setupAutocomplete();
+            setDefaultDates();
+            updatePassengerDisplay();
+        });
+        
+        // ===================== FUNCTIONS =====================
+        function renderVehicles() {
+            vehicleContainer.innerHTML = '';
+            rentalVehicleData.forEach((vehicle, index) => {
+                const card = document.createElement('div');
+                card.className = 'overlay-card relative w-full h-80 md:h-[450px] rounded-xl overflow-hidden shadow-custom-lg transition duration-300 hover:shadow-xl group card-hover';
+                if (index === 0) card.className += ' md:col-span-2 md:h-[450px]';
+                card.innerHTML = `
+                    <img src="${vehicle.image}" alt="${vehicle.name}" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
+                    <div class="overlay-card-content absolute bottom-0 left-0 p-6 md:p-8">
+                        <h2 class="text-4xl md:text-5xl font-bold text-white leading-none">${vehicle.name}</h2>
+                        <p class="text-white mt-2">Rs. ${vehicle.pricePerDay}/day • Capacity: ${vehicle.capacity}</p>
+                        <button class="mt-3 bg-white/20 hover:bg-white/40 text-white font-semibold py-2 px-5 rounded-lg transition" onclick="event.stopPropagation(); openRentalForType('${vehicle.type}')">Book Now</button>
+                    </div>
+                `;
+                card.addEventListener('click', () => openRentalForType(vehicle.type));
+                vehicleContainer.appendChild(card);
+            });
+        }
+        
+        function renderDestinationCards(category) {
+            destinationCardsContainer.innerHTML = '';
+            const dests = destinations[category] || [];
+            dests.forEach(dest => {
+                const card = document.createElement('a');
+                card.href = '#';
+                card.className = 'flex-shrink-0 w-[280px] md:w-[320px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 card-hover';
+                card.innerHTML = `
+                    <div class="h-48 overflow-hidden">
+                        <img src="${dest.image}" alt="${dest.name}" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xl font-semibold text-primary-dark">${dest.name}</p>
+                        <p class="text-sm text-secondary-dark">${dest.description}</p>
+                    </div>
+                `;
+                card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showDestinationInfo(dest);
+                });
+                destinationCardsContainer.appendChild(card);
+            });
+        }
+        
+        function renderWinterCards() {
+            winterCardsContainer.innerHTML = '';
+            winterDestinations.forEach(dest => {
+                const card = document.createElement('div');
+                card.className = 'block group relative rounded-xl overflow-hidden shadow-xl-light hover:shadow-2xl transition duration-300 card-hover h-96';
+                card.innerHTML = `
+                    <img src="${dest.image}" alt="${dest.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
+                    <div class="absolute inset-0 bg-card-overlay flex flex-col justify-end p-6 text-white">
+                        <h2 class="text-2xl font-bold">${dest.name}</h2>
+                        <p class="text-sm font-semibold">${dest.priceRange}</p>
+                        <p class="text-xs mt-2">${dest.description}</p>
+                    </div>
+                `;
+                card.addEventListener('click', () => showDestinationInfo(dest));
+                winterCardsContainer.appendChild(card);
+            });
+        }
+        
+        function showDestinationInfo(dest) {
+            const modalTitle = document.getElementById('destinationModalTitle');
+            const modalContent = document.getElementById('destinationModalContent');
+            modalTitle.textContent = dest.name;
+            let html = `<p class="text-gray-600 mb-4">${dest.description}</p>`;
+            html += '<h4 class="font-bold mb-2">Top Attractions:</h4><ul class="list-disc pl-5 mb-4">';
+            if (dest.attractions && dest.attractions.length) {
+                dest.attractions.forEach(att => {
+                    html += `<li>${att}</li>`;
+                });
+            } else {
+                html += '<li>No attractions listed</li>';
+            }
+            html += '</ul>';
+            if (dest.images && dest.images.length > 0) {
+                html += '<h4 class="font-bold mb-2">Gallery</h4><div class="grid grid-cols-2 md:grid-cols-3 gap-2">';
+                dest.images.forEach(img => {
+                    html += `<img src="${img}" class="w-full h-32 object-cover rounded-lg">`;
+                });
+                html += '</div>';
+            }
+            modalContent.innerHTML = html;
+            destinationModal.style.display = 'flex';
+            selectedRentalVehicleType = '';
+        }
+        
+        function openVehicleTypeSelection() {
+            destinationModal.style.display = 'none';
+            destinationVehicleModal.style.display = 'flex';
+        }
+        
+        function closeDestinationVehicleModal() {
+            destinationVehicleModal.style.display = 'none';
+        }
+        
+        function openRentalForType(vehicleType) {
+            const vehicle = rentalVehicleData.find(v => v.type === vehicleType);
+            if (!vehicle) return;
+            selectedRentalVehicleType = vehicleType;
+            rentalPricePerDay = vehicle.pricePerDay;
+            document.getElementById('rentalModalTitle').textContent = `Book ${vehicle.name}`;
+            document.getElementById('rentalBookingVehicleType').textContent = vehicle.name;
+            // Reset form and route cities
+            if (document.getElementById('rentalBookingForm')) document.getElementById('rentalBookingForm').reset();
+            document.getElementById('routeCitiesContainer').innerHTML = `
+                <div class="flex gap-2 mb-2">
+                    <input type="text" class="route-city-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue" placeholder="City 1">
+                    <button type="button" class="bg-red-100 text-red-600 px-3 rounded-md hover:bg-red-200 transition" onclick="removeCityField(this)"><i class="fas fa-times"></i></button>
+                </div>
+            `;
+            routeCities = [];
+            document.getElementById('rentalPickupDate').value = new Date().toISOString().split('T')[0];
+            currentRentalStep = 1;
+            showRentalStep(1);
+            destinationVehicleModal.style.display = 'none';
+            rentalBookingModal.style.display = 'flex';
+            populateRentalVehicleTypes();
+        }
+        
+        function populateRentalVehicleTypes() {
+            const typeContainer = document.getElementById('vehicleTypeSelection');
+            typeContainer.innerHTML = '';
+            rentalVehicleData.forEach(vehicle => {
+                const card = document.createElement('div');
+                card.className = 'card-hover bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition';
+                card.dataset.type = vehicle.type;
+                card.innerHTML = `
+                    <img src="${vehicle.image}" alt="${vehicle.name}" class="w-full h-32 object-cover rounded-md mb-2">
+                    <h4 class="font-bold text-lg">${vehicle.name}</h4>
+                    <p class="text-sm text-gray-600">Capacity: ${vehicle.capacity}</p>
+                    <p class="font-semibold mt-2">From Rs. ${vehicle.pricePerDay}/day</p>
+                `;
+                card.addEventListener('click', () => {
+                    selectRentalVehicleType(vehicle.type);
+                });
+                typeContainer.appendChild(card);
+            });
+            document.getElementById('specificVehicleList').classList.add('hidden');
+            document.getElementById('specificVehicleOptions').innerHTML = '';
+        }
+        
+        function selectRentalVehicleType(type) {
+            selectedRentalVehicleType = type;
+            document.querySelectorAll('#vehicleTypeSelection > div').forEach(card => {
+                if (card.dataset.type === type) {
+                    card.classList.add('ring-2', 'ring-cta-blue');
+                } else {
+                    card.classList.remove('ring-2', 'ring-cta-blue');
+                }
+            });
+            const vehicle = rentalVehicleData.find(v => v.type === type);
+            const listContainer = document.getElementById('specificVehicleOptions');
+            listContainer.innerHTML = '';
+            vehicle.variants.forEach(variant => {
+                const div = document.createElement('div');
+                div.className = 'border border-gray-200 rounded-lg p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4';
+                div.innerHTML = `
+                    <div class="md:w-1/3">
+                        <img src="${variant.image}" alt="${variant.name}" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <div class="md:w-2/3">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-lg">${variant.name}</h4>
+                            <span class="text-cta-blue font-semibold">Rs. ${vehicle.pricePerDay}/day</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">Capacity: ${variant.capacity} people</p>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            ${variant.features.map(f => `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${f}</span>`).join('')}
+                        </div>
+                        <button class="bg-cta-blue text-white px-4 py-2 rounded-lg text-sm font-semibold" onclick="selectSpecificVehicle(${variant.id}, '${variant.name}', ${variant.capacity})">Select</button>
+                    </div>
+                `;
+                listContainer.appendChild(div);
+            });
+            document.getElementById('specificVehicleList').classList.remove('hidden');
+        }
+        
+        function selectSpecificVehicle(id, name, capacity) {
+            selectedRentalSpecificVehicle = { id, name, capacity };
+            rentalPricePerDay = rentalVehicleData.find(v => v.type === selectedRentalVehicleType).pricePerDay;
+            document.getElementById('rentalBookingVehicleType').textContent = name;
+            currentRentalStep = 2;
+            showRentalStep(2);
+            updateRentalTotalPrice();
+        }
+        
+        function showRentalStep(step) {
+            document.querySelectorAll('#rentalBookingModal .booking-step').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`step${step}`).classList.remove('hidden');
+            updateRentalStepIndicators();
+        }
+        
+        function updateRentalStepIndicators() {
+            for (let i = 1; i <= 3; i++) {
+                const indicator = document.getElementById(`step${i}Indicator`);
+                if (i < currentRentalStep) {
+                    indicator.className = 'step flex-1 text-center text-green-600';
+                } else if (i === currentRentalStep) {
+                    indicator.className = 'step flex-1 text-center font-bold text-cta-blue';
+                } else {
+                    indicator.className = 'step flex-1 text-center text-gray-400';
+                }
+            }
+        }
+        
+        function nextStep(step) {
+            currentRentalStep = step;
+            showRentalStep(step);
+            if (step === 3) {
+                updateRentalSummary();
+            }
+        }
+        
+        function prevStep(step) {
+            currentRentalStep = step;
+            showRentalStep(step);
+        }
+        
+        function updateRentalTotalPrice() {
+            const days = parseInt(document.getElementById('rentalDays').value) || 1;
+            document.getElementById('rentalTotalPrice').textContent = days * rentalPricePerDay;
+        }
+        
+        function addCityField() {
+            const container = document.getElementById('routeCitiesContainer');
+            const div = document.createElement('div');
+            div.className = 'flex gap-2 mb-2';
+            div.innerHTML = `
+                <input type="text" class="route-city-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cta-blue" placeholder="City ${container.children.length + 1}">
+                <button type="button" class="bg-red-100 text-red-600 px-3 rounded-md hover:bg-red-200 transition" onclick="removeCityField(this)"><i class="fas fa-times"></i></button>
+            `;
+            container.appendChild(div);
+        }
+        
+        function removeCityField(btn) {
+            btn.parentElement.remove();
+        }
+        
+        function collectRouteCities() {
+            const inputs = document.querySelectorAll('.route-city-input');
+            const cities = [];
+            inputs.forEach(input => {
+                if (input.value.trim()) cities.push(input.value.trim());
+            });
+            return cities;
+        }
+        
+        function updateRentalSummary() {
+            const summaryDiv = document.getElementById('rentalSummaryContent');
+            const days = parseInt(document.getElementById('rentalDays').value) || 1;
+            const passengers = document.getElementById('rentalPassengers').value || 'N/A';
+            const pickupDate = document.getElementById('rentalPickupDate').value || 'N/A';
+            const pickupLocation = document.getElementById('rentalPickupLocation').value || 'N/A';
+            const destination = document.getElementById('rentalDestination').value || 'N/A';
+            const routeCities = collectRouteCities();
+            const totalPrice = days * rentalPricePerDay;
+            
+            summaryDiv.innerHTML = `
+                <div class="flex justify-between mb-2"><span>Vehicle:</span><span>${selectedRentalSpecificVehicle ? selectedRentalSpecificVehicle.name : 'N/A'}</span></div>
+                <div class="flex justify-between mb-2"><span>Number of Passengers:</span><span>${passengers}</span></div>
+                <div class="flex justify-between mb-2"><span>Number of Days:</span><span>${days}</span></div>
+                <div class="flex justify-between mb-2"><span>Pickup Date:</span><span>${pickupDate}</span></div>
+                <div class="flex justify-between mb-2"><span>Pickup Location:</span><span>${pickupLocation}</span></div>
+                <div class="flex justify-between mb-2"><span>Destination:</span><span>${destination}</span></div>
+                ${routeCities.length > 0 ? `<div class="flex justify-between mb-2"><span>Route Cities:</span><span>${routeCities.join(' → ')}</span></div>` : ''}
+                <div class="flex justify-between mb-2"><span>Total Price:</span><span>Rs. ${totalPrice}</span></div>
+            `;
+        }
+        
+        function confirmRentalBooking() {
+            const days = parseInt(document.getElementById('rentalDays').value) || 1;
+            const totalPrice = days * rentalPricePerDay;
+            const vehicleName = selectedRentalSpecificVehicle ? selectedRentalSpecificVehicle.name : 'Vehicle';
+            const passengers = document.getElementById('rentalPassengers').value || 'N/A';
+            const pickupLocation = document.getElementById('rentalPickupLocation').value || 'N/A';
+            const destination = document.getElementById('rentalDestination').value || 'N/A';
+            const routeCities = collectRouteCities();
+            
+            document.getElementById('paymentBusName').textContent = vehicleName;
+            document.getElementById('paymentSeats').textContent = `Whole vehicle (${passengers} passengers)`;
+            document.getElementById('paymentAmount').textContent = `Rs. ${totalPrice}`;
+            document.getElementById('paymentModal').style.display = 'flex';
+            rentalBookingModal.style.display = 'none';
+            document.getElementById('qrContainer').classList.remove('show');
+        }
+        
+        function closeRentalModal() {
+            rentalBookingModal.style.display = 'none';
+        }
+        
+        function closeDestinationModal() {
+            destinationModal.style.display = 'none';
+        }
+        
+        // ===================== GOYATRA BUS BOOKING FUNCTIONS =====================
+        function setupAutocomplete() {
+            const inputs = ['fromDestination', 'toDestination', 'fromDestinationMobile', 'toDestinationMobile'];
+            inputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (!input) return;
+                input.parentNode.style.position = 'relative';
+                const container = document.createElement('div');
+                container.className = 'autocomplete-items';
+                container.id = id + '-autocomplete';
+                input.parentNode.appendChild(container);
+                
+                input.addEventListener('input', function() {
+                    const val = this.value;
+                    container.innerHTML = '';
+                    if (!val) return;
+                    const matches = nepalCities.filter(c => c.toLowerCase().startsWith(val.toLowerCase())).slice(0, 8);
+                    matches.forEach(city => {
+                        const div = document.createElement('div');
+                        div.className = 'autocomplete-item';
+                        div.textContent = city;
+                        div.onclick = function() {
+                            input.value = city;
+                            container.innerHTML = '';
+                        };
+                        container.appendChild(div);
+                    });
+                });
+                
+                document.addEventListener('click', function(e) {
+                    if (e.target !== input) container.innerHTML = '';
+                });
+            });
+        }
+        
+        function setDefaultDates() {
+            const today = new Date();
+            const dateStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+            if (document.getElementById('departDate')) document.getElementById('departDate').value = dateStr;
+            if (document.getElementById('departDateMobile')) document.getElementById('departDateMobile').value = dateStr;
+        }
+        
+        function toggleCalendar(mode, inputId) {
+            const input = document.getElementById(inputId);
+            const buttons = input.parentElement.querySelectorAll('.date-toggle-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.calendar === mode) btn.classList.add('active');
+            });
+            if (mode === 'ad') input.type = 'date';
+            else { input.type = 'text'; input.placeholder = 'YYYY-MM-DD (BS)'; }
+        }
+        
+        function adjustPassenger(type, target) {
+            if (type === 'minus' && adultCount > 1) adultCount--;
+            else if (type === 'plus') adultCount++;
+            updatePassengerDisplay();
+        }
+        
+        function adjustMobilePassenger(type) {
+            if (type === 'minus' && mobileAdultCount > 1) mobileAdultCount--;
+            else if (type === 'plus') mobileAdultCount++;
+            updatePassengerDisplay();
+        }
+        
+        function updatePassengerDisplay() {
+            if (document.getElementById('passengerCountDisplay')) {
+                document.getElementById('passengerCountDisplay').value = `${adultCount} Passenger${adultCount > 1 ? 's' : ''}`;
+                document.getElementById('adultCount').textContent = adultCount;
+            }
+            if (document.getElementById('passengerCountDisplayMobile')) {
+                document.getElementById('passengerCountDisplayMobile').value = `${mobileAdultCount} Passenger${mobileAdultCount > 1 ? 's' : ''}`;
+                document.getElementById('mobileAdultCount').textContent = mobileAdultCount;
+            }
+        }
+        
+        function togglePassengerDropdown() {
+            document.getElementById('passengerDropdown').classList.toggle('show');
+        }
+        
+        function toggleMobilePassengerDropdown() {
+            document.getElementById('mobilePassengerDropdown').classList.toggle('show');
+        }
+        
+        document.getElementById('passengerInputContainer')?.addEventListener('click', function(e) {
+            if (e.target.id === 'passengerCountDisplay') togglePassengerDropdown();
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#passengerInputContainer')) {
+                document.getElementById('passengerDropdown')?.classList.remove('show');
+            }
+            if (!e.target.closest('#mobilePassengerContainer')) {
+                document.getElementById('mobilePassengerDropdown')?.classList.remove('show');
+            }
+        });
+        
+        function handleSearch() {
+            const from = document.getElementById('fromDestination').value;
+            const to = document.getElementById('toDestination').value;
+            if (!from || !to) { alert('Please fill in both origin and destination'); return; }
+            showVehicleResults();
+        }
+        
+        function handleSearchMobile() {
+            const from = document.getElementById('fromDestinationMobile').value;
+            const to = document.getElementById('toDestinationMobile').value;
+            if (!from || !to) { alert('Please fill in both origin and destination'); return; }
+            showVehicleResults();
+        }
+        
+        function showVehicleResults() {
+            const grid = document.getElementById('vehicleGrid');
+            grid.innerHTML = '';
+            const shuffled = [...allVehicles].sort(() => Math.random() - 0.5);
+            const selectedVehicles = shuffled.slice(0, 6);
+            selectedVehicles.forEach(config => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200';
+                card.innerHTML = `
+                    <img src="${config.image}" alt="${config.name}" class="w-full h-40 object-cover vehicle-image">
+                    <div class="p-4">
+                        <h4 class="font-bold text-lg">${config.name}</h4>
+                        <p class="text-gray-600 text-sm">Departure: ${config.departure} • Arrival: ${config.arrival}</p>
+                        <p class="text-gray-600 text-sm">Boarding: ${config.boarding.join(', ')}</p>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-go-yatra-teal font-bold">Rs. ${config.price}</span>
+                            <button class="bg-go-yatra-teal text-white px-3 py-1.5 rounded-lg text-sm font-semibold hover:bg-go-yatra-light transition" onclick="selectBusVehicle('${config.id}')">Select Seats</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            document.getElementById('searchOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function selectBusVehicle(id) {
+            currentVehicle = id;
+            const config = allVehicles.find(v => v.id === id);
+            if (!config) return;
+            currentBusPrice = config.price;
+            selectedSeats = [];
+            generateBusSeatLayout(config);
+            document.getElementById('searchOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.getElementById('seatSelectionModal').style.display = 'flex';
+        }
+        
+        function generateBusSeatLayout(config) {
+            const layout = document.getElementById('busSeatLayout');
+            layout.innerHTML = '';
+            document.getElementById('selectedBusName').textContent = `Select Seats - ${config.name}`;
+            updateSeatSelectionUI();
+            const driver = document.createElement('div');
+            driver.className = 'driver-seat';
+            driver.textContent = 'Driver';
+            layout.appendChild(driver);
+            const womenReserved = new Set(['1A', '2B', '3C', '4A', '5B']);
+            const occupied = new Set(['2A', '3B', '5C', '7D']);
+            for (let row = 1; row <= config.rows; row++) {
+                const seatRow = document.createElement('div');
+                seatRow.className = 'seat-row';
+                for (let s = 1; s <= config.seatsPerRow; s++) {
+                    const seatId = `${row}${String.fromCharCode(64 + s)}`;
+                    const seat = document.createElement('div');
+                    seat.className = 'seat';
+                    seat.dataset.seat = seatId;
+                    if (womenReserved.has(seatId)) {
+                        seat.classList.add('women-reserved');
+                        seat.textContent = seatId;
+                    } else if (occupied.has(seatId)) {
+                        seat.classList.add('occupied');
+                        seat.textContent = seatId;
+                    } else {
+                        seat.classList.add('available');
+                        seat.textContent = seatId;
+                        seat.onclick = function() { toggleBusSeat(this); };
+                    }
+                    seatRow.appendChild(seat);
+                    if (config.seatsPerRow === 4 && s === 2) {
+                        const aisle = document.createElement('div');
+                        aisle.className = 'aisle-space';
+                        seatRow.appendChild(aisle);
+                    }
+                }
+                layout.appendChild(seatRow);
+            }
+        }
+        
+        function toggleBusSeat(seatElement) {
+            const seatId = seatElement.dataset.seat;
+            if (selectedSeats.includes(seatId)) {
+                selectedSeats = selectedSeats.filter(s => s !== seatId);
+                seatElement.classList.remove('selected');
+                seatElement.classList.add('available');
+            } else {
+                selectedSeats.push(seatId);
+                seatElement.classList.remove('available');
+                seatElement.classList.add('selected');
+            }
+            updateSeatSelectionUI();
+        }
+        
+        function updateSeatSelectionUI() {
+            document.getElementById('selectedSeatsCount').textContent = selectedSeats.length;
+            document.getElementById('totalPrice').textContent = selectedSeats.length * currentBusPrice;
+        }
+        
+        function backToVehicles() {
+            document.getElementById('seatSelectionModal').style.display = 'none';
+            showVehicleResults();
+        }
+        
+        function closeSeatModal() { document.getElementById('seatSelectionModal').style.display = 'none'; }
+        function closeSearchOverlay() { document.getElementById('searchOverlay').classList.remove('active'); document.body.style.overflow = 'auto'; }
+        
+        function openPaymentModal() {
+            if (selectedSeats.length === 0) { alert('Please select at least one seat'); return; }
+            const config = allVehicles.find(v => v.id === currentVehicle);
+            document.getElementById('paymentBusName').textContent = config ? config.name : 'Unknown';
+            document.getElementById('paymentSeats').textContent = selectedSeats.join(', ');
+            document.getElementById('paymentAmount').textContent = `Rs. ${selectedSeats.length * currentBusPrice}`;
+            document.getElementById('seatSelectionModal').style.display = 'none';
+            document.getElementById('paymentModal').style.display = 'flex';
+            document.getElementById('qrContainer').classList.remove('show');
+        }
+        
+        function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; }
+        
+        function selectPaymentMethod(element) {
+            document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedPaymentMethod = element.dataset.method;
+            const qrContainer = document.getElementById('qrContainer');
+            qrContainer.classList.add('show');
+            const qrCode = document.getElementById('qrCode');
+            const qrInstructions = document.getElementById('qrInstructions');
+            if (selectedPaymentMethod === 'esewa') {
+                qrCode.innerHTML = '<i class="fas fa-qrcode text-5xl text-green-600"></i><p class="text-xs mt-2 font-bold">eSewa QR</p>';
+                qrInstructions.textContent = 'Scan with eSewa app to pay';
+            } else if (selectedPaymentMethod === 'khalti') {
+                qrCode.innerHTML = '<i class="fas fa-qrcode text-5xl text-purple-600"></i><p class="text-xs mt-2 font-bold">Khalti QR</p>';
+                qrInstructions.textContent = 'Scan with Khalti app to pay';
+            } else {
+                qrCode.innerHTML = '<i class="fas fa-credit-card text-5xl text-blue-600"></i><p class="text-xs mt-2 font-bold">Card Payment</p>';
+                qrInstructions.textContent = 'Enter card details in the next step';
+            }
+        }
+        
+        function processPayment() {
+            if (selectedSeats.length > 0) {
+                const config = allVehicles.find(v => v.id === currentVehicle);
+                const receiptNumber = Math.floor(1000 + Math.random() * 9000);
+                document.getElementById('receiptNumber').textContent = receiptNumber;
+                const receiptDetails = document.getElementById('receiptDetails');
+                receiptDetails.innerHTML = `
+                    <div class="flex justify-between"><span>Bus:</span><span class="font-semibold">${config ? config.name : 'Unknown'}</span></div>
+                    <div class="flex justify-between"><span>Seats:</span><span class="font-semibold">${selectedSeats.join(', ')}</span></div>
+                    <div class="flex justify-between"><span>Passengers:</span><span class="font-semibold">${adultCount}</span></div>
+                    <div class="flex justify-between"><span>Payment Method:</span><span class="font-semibold">${selectedPaymentMethod.toUpperCase()}</span></div>
+                    <div class="flex justify-between"><span>Total Amount:</span><span class="font-semibold">Rs. ${selectedSeats.length * currentBusPrice}</span></div>
+                    <div class="flex justify-between"><span>Date:</span><span class="font-semibold">${new Date().toLocaleDateString()}</span></div>
+                `;
+                closePaymentModal();
+                document.getElementById('receiptModal').style.display = 'flex';
+            } else {
+                const days = parseInt(document.getElementById('rentalDays').value) || 1;
+                const totalPrice = days * rentalPricePerDay;
+                const vehicleName = selectedRentalSpecificVehicle ? selectedRentalSpecificVehicle.name : 'Vehicle';
+                const passengers = document.getElementById('rentalPassengers').value || 'N/A';
+                const pickupLocation = document.getElementById('rentalPickupLocation').value || 'N/A';
+                const destination = document.getElementById('rentalDestination').value || 'N/A';
+                const routeCities = collectRouteCities();
+                const receiptNumber = Math.floor(1000 + Math.random() * 9000);
+                document.getElementById('receiptNumber').textContent = receiptNumber;
+                const receiptDetails = document.getElementById('receiptDetails');
+                receiptDetails.innerHTML = `
+                    <div class="flex justify-between"><span>Vehicle:</span><span class="font-semibold">${vehicleName}</span></div>
+                    <div class="flex justify-between"><span>Type:</span><span class="font-semibold">Whole Vehicle</span></div>
+                    <div class="flex justify-between"><span>Passengers:</span><span class="font-semibold">${passengers}</span></div>
+                    <div class="flex justify-between"><span>Days:</span><span class="font-semibold">${days}</span></div>
+                    <div class="flex justify-between"><span>Pickup Location:</span><span class="font-semibold">${pickupLocation}</span></div>
+                    <div class="flex justify-between"><span>Destination:</span><span class="font-semibold">${destination}</span></div>
+                    ${routeCities.length > 0 ? `<div class="flex justify-between"><span>Route:</span><span class="font-semibold">${routeCities.join(' → ')}</span></div>` : ''}
+                    <div class="flex justify-between"><span>Payment Method:</span><span class="font-semibold">${selectedPaymentMethod.toUpperCase()}</span></div>
+                    <div class="flex justify-between"><span>Total Amount:</span><span class="font-semibold">Rs. ${totalPrice}</span></div>
+                    <div class="flex justify-between"><span>Date:</span><span class="font-semibold">${new Date().toLocaleDateString()}</span></div>
+                `;
+                closePaymentModal();
+                document.getElementById('receiptModal').style.display = 'flex';
+            }
+        }
+        
+        function closeReceiptModal() { document.getElementById('receiptModal').style.display = 'none'; }
+        function openSignUpModal() { document.getElementById('signUpModal').style.display = 'flex'; }
+        function closeSignUpModal() { document.getElementById('signUpModal').style.display = 'none'; }
+        function handleSignUp(event) { event.preventDefault(); alert('Vehicle registered successfully!'); closeSignUpModal(); }
+        function toggleWomenBooking() { womenBookingEnabled = document.getElementById('womenBookingToggle').checked; if (womenBookingEnabled) openWomenModal(); }
+        function toggleWomenBookingMobile() { womenBookingEnabled = document.getElementById('womenBookingToggleMobile').checked; if (womenBookingEnabled) openWomenModal(); }
+        function openWomenModal() { document.getElementById('womenBookingModal').style.display = 'flex'; }
+        function closeWomenModal() { document.getElementById('womenBookingModal').style.display = 'none'; }
+        function redirectToTicketChange() { window.location.href = 'change-ticket.html'; }
+        function toggleFAQ(button) { const answer = button.nextElementSibling; const icon = button.querySelector('i'); answer.classList.toggle('hidden'); icon.style.transform = answer.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)'; }
+        function setupMobileMenu() { const menuBtn = document.querySelector('.mobile-menu-button'); const menu = document.querySelector('.mobile-menu'); if (menuBtn && menu) { menuBtn.addEventListener('click', function() { menu.classList.toggle('active'); }); } }
+        function setupScrollAnimations() { const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('animated'); }); }, { threshold: 0.1 }); document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el)); }
+        function setupEventListeners() {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    const category = link.dataset.category;
+                    renderDestinationCards(category);
+                });
+            });
+            document.getElementById('scroll-left')?.addEventListener('click', () => { destinationCardsContainer.scrollBy({ left: -300, behavior: 'smooth' }); });
+            document.getElementById('scroll-right')?.addEventListener('click', () => { destinationCardsContainer.scrollBy({ left: 300, behavior: 'smooth' }); });
+            document.querySelectorAll('.modal .close-button').forEach(btn => { btn.addEventListener('click', () => { btn.closest('.modal').style.display = 'none'; }); });
+            window.addEventListener('click', (e) => {
+                if (e.target === rentalBookingModal) rentalBookingModal.style.display = 'none';
+                if (e.target === destinationModal) destinationModal.style.display = 'none';
+                if (e.target === destinationVehicleModal) destinationVehicleModal.style.display = 'none';
+                if (e.target === document.getElementById('paymentModal')) closePaymentModal();
+                if (e.target === document.getElementById('receiptModal')) closeReceiptModal();
+                if (e.target === document.getElementById('signUpModal')) closeSignUpModal();
+                if (e.target === document.getElementById('seatSelectionModal')) closeSeatModal();
+                if (e.target === document.getElementById('womenBookingModal')) closeWomenModal();
+                if (e.target === document.getElementById('attractionsModal')) closeAttractionsModal();
+            });
+            document.getElementById('rentalDays')?.addEventListener('input', () => { updateRentalTotalPrice(); });
+        }
+        function toggleWhatsAppQuestions() { document.getElementById('whatsappQuestions').classList.toggle('show'); }
+        function sendWhatsApp(message) { const phoneNumber = '+9779708095535'; const encodedMessage = encodeURIComponent(message); const whatsappURL = `https://wa.me/${phoneNumber.replace(/\+/g, '')}?text=${encodedMessage}`; window.open(whatsappURL, '_blank'); document.getElementById('whatsappQuestions').classList.remove('show'); }
+        function showAttractions(destName) { const destination = Object.values(destinations).flat().find(d => d.name === destName); if (!destination) return; showDestinationInfo(destination); }
+        function closeAttractionsModal() { document.getElementById('attractionsModal').style.display = 'none'; }
+        
+        // Initialize
+        renderVehicles();
+        renderDestinationCards('popular');
+        renderWinterCards();
+    </script>
+</body>
+</html>
